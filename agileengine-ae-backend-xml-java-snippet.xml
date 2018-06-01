@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="agileengine-ae-backend-xml-java-snippet" default="all">
+  
+  
+  <property file="agileengine-ae-backend-xml-java-snippet.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.orig/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+    <include name="*.ane"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_log4j:log4j:1.2.17.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jsoup:jsoup:1.11.2.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.11.2/e3eeb8a0b4ce1db246059a41e353cd7413dad226/jsoup-1.11.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.25/da76ca59f6a57ee3102f8f9bd9cee742973efa8a/slf4j-api-1.7.25.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-log4j12/1.7.25/110cefe2df103412849d72ef7a67e4e91e4266b4/slf4j-log4j12-1.7.25.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module ae-backend-xml-java-snippets -->
+  
+  <dirname property="module.ae-backend-xml-java-snippets.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.ae-backend-xml-java-snippets" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ae-backend-xml-java-snippets" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ae-backend-xml-java-snippets" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ae-backend-xml-java-snippets" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ae-backend-xml-java-snippets.output.dir" value="${module.ae-backend-xml-java-snippets.basedir}/classes/production/ae-backend-xml-java-snippets"/>
+  <property name="ae-backend-xml-java-snippets.testoutput.dir" value="${module.ae-backend-xml-java-snippets.basedir}/classes/test/ae-backend-xml-java-snippets"/>
+  
+  <path id="ae-backend-xml-java-snippets.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets.module.production.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets}"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets.runtime.production.module.classpath">
+    <pathelement location="${ae-backend-xml-java-snippets.output.dir}"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets.module.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets}"/>
+    <pathelement location="${ae-backend-xml-java-snippets.output.dir}"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets.runtime.module.classpath">
+    <pathelement location="${ae-backend-xml-java-snippets.testoutput.dir}"/>
+    <pathelement location="${ae-backend-xml-java-snippets.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ae-backend-xml-java-snippets">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ae-backend-xml-java-snippets">
+    <patternset refid="excluded.from.module.ae-backend-xml-java-snippets"/>
+  </patternset>
+  
+  
+  <target name="compile.module.ae-backend-xml-java-snippets" depends="compile.module.ae-backend-xml-java-snippets.production,compile.module.ae-backend-xml-java-snippets.tests" description="Compile module ae-backend-xml-java-snippets"/>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets.production" depends="register.custom.compilers" description="Compile module ae-backend-xml-java-snippets; production classes"/>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets.tests" depends="register.custom.compilers,compile.module.ae-backend-xml-java-snippets.production" description="compile module ae-backend-xml-java-snippets; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ae-backend-xml-java-snippets" description="cleanup module">
+    <delete dir="${ae-backend-xml-java-snippets.output.dir}"/>
+    <delete dir="${ae-backend-xml-java-snippets.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module ae-backend-xml-java-snippets_main -->
+  
+  <dirname property="module.ae-backend-xml-java-snippets_main.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.ae-backend-xml-java-snippets_main" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ae-backend-xml-java-snippets_main" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ae-backend-xml-java-snippets_main" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ae-backend-xml-java-snippets_main" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ae-backend-xml-java-snippets_main.output.dir" value="${module.ae-backend-xml-java-snippets_main.basedir}/out/production/classes"/>
+  <property name="ae-backend-xml-java-snippets_main.testoutput.dir" value="${module.ae-backend-xml-java-snippets_main.basedir}/out/production/classes"/>
+  
+  <path id="ae-backend-xml-java-snippets_main.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_main.module.production.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets_main}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_main.runtime.production.module.classpath">
+    <pathelement location="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_main.module.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets_main}"/>
+    <pathelement location="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_main.runtime.module.classpath">
+    <pathelement location="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ae-backend-xml-java-snippets_main">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ae-backend-xml-java-snippets_main">
+    <patternset refid="excluded.from.module.ae-backend-xml-java-snippets_main"/>
+  </patternset>
+  
+  <path id="ae-backend-xml-java-snippets_main.module.sourcepath">
+    <dirset dir="${module.ae-backend-xml-java-snippets_main.basedir}/src/main">
+      <include name="java"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_main" depends="compile.module.ae-backend-xml-java-snippets_main.production,compile.module.ae-backend-xml-java-snippets_main.tests" description="Compile module ae-backend-xml-java-snippets_main"/>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_main.production" depends="register.custom.compilers" description="Compile module ae-backend-xml-java-snippets_main; production classes">
+    <mkdir dir="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <javac2 destdir="${ae-backend-xml-java-snippets_main.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ae-backend-xml-java-snippets_main}/javac">
+      <compilerarg line="${compiler.args.ae-backend-xml-java-snippets_main}"/>
+      <bootclasspath refid="ae-backend-xml-java-snippets_main.module.bootclasspath"/>
+      <classpath refid="ae-backend-xml-java-snippets_main.module.production.classpath"/>
+      <src refid="ae-backend-xml-java-snippets_main.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ae-backend-xml-java-snippets_main"/>
+    </javac2>
+    
+    <copy todir="${ae-backend-xml-java-snippets_main.output.dir}">
+      <fileset dir="${module.ae-backend-xml-java-snippets_main.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.ae-backend-xml-java-snippets_main.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_main.tests" depends="register.custom.compilers,compile.module.ae-backend-xml-java-snippets_main.production" description="compile module ae-backend-xml-java-snippets_main; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ae-backend-xml-java-snippets_main" description="cleanup module">
+    <delete dir="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <delete dir="${ae-backend-xml-java-snippets_main.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module ae-backend-xml-java-snippets_test -->
+  
+  <dirname property="module.ae-backend-xml-java-snippets_test.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.ae-backend-xml-java-snippets_test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ae-backend-xml-java-snippets_test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ae-backend-xml-java-snippets_test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.ae-backend-xml-java-snippets_test" value="-encoding UTF-8 -source 1.8 -target 1.8 ${compiler.args}"/>
+  
+  <property name="ae-backend-xml-java-snippets_test.output.dir" value="undefined"/>
+  <property name="ae-backend-xml-java-snippets_test.testoutput.dir" value="${module.ae-backend-xml-java-snippets_test.basedir}/out/test/classes"/>
+  
+  <path id="ae-backend-xml-java-snippets_test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_test.module.production.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets_test}"/>
+    <pathelement location="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_test.runtime.production.module.classpath">
+    <path refid="ae-backend-xml-java-snippets_main.runtime.production.module.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_test.module.classpath">
+    <path refid="${module.jdk.classpath.ae-backend-xml-java-snippets_test}"/>
+    <pathelement location="${ae-backend-xml-java-snippets_main.output.dir}"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="ae-backend-xml-java-snippets_test.runtime.module.classpath">
+    <pathelement location="${ae-backend-xml-java-snippets_test.testoutput.dir}"/>
+    <path refid="ae-backend-xml-java-snippets_main.runtime.module.classpath"/>
+    <path refid="library.gradle:_org.jsoup:jsoup:1.11.2.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-log4j12:1.7.25.classpath"/>
+    <path refid="library.gradle:_org.slf4j:slf4j-api:1.7.25.classpath"/>
+    <path refid="library.gradle:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.ae-backend-xml-java-snippets_test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.ae-backend-xml-java-snippets_test">
+    <patternset refid="excluded.from.module.ae-backend-xml-java-snippets_test"/>
+  </patternset>
+  
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_test" depends="compile.module.ae-backend-xml-java-snippets_test.production,compile.module.ae-backend-xml-java-snippets_test.tests" description="Compile module ae-backend-xml-java-snippets_test"/>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_test.production" depends="register.custom.compilers,compile.module.ae-backend-xml-java-snippets_main" description="Compile module ae-backend-xml-java-snippets_test; production classes"/>
+  
+  <target name="compile.module.ae-backend-xml-java-snippets_test.tests" depends="register.custom.compilers,compile.module.ae-backend-xml-java-snippets_test.production" description="compile module ae-backend-xml-java-snippets_test; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.ae-backend-xml-java-snippets_test" description="cleanup module">
+    <delete dir="${ae-backend-xml-java-snippets_test.output.dir}"/>
+    <delete dir="${ae-backend-xml-java-snippets_test.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.ae-backend-xml-java-snippets, clean.module.ae-backend-xml-java-snippets_main, clean.module.ae-backend-xml-java-snippets_test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.ae-backend-xml-java-snippets, compile.module.ae-backend-xml-java-snippets_main, compile.module.ae-backend-xml-java-snippets_test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
